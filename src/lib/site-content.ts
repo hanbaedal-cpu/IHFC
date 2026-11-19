@@ -120,5 +120,4 @@ export const GUIDE_STEPS = [
   },
 ];
 
-export const ABOUT_IMAGE =
-  "https://readdy.ai/api/search-image?query=Modern%20bright%20hospital%20funeral%20hall%20building%20exterior%20white%20walls%20sage%20green%20pillar%20signage%20lush%20trees%20manicured%20lawn%20soft%20daylight%20serene%20respectful%20architecture%20photography&width=1000&height=880&seq=about-hall-02&orientation=landscape";
+export const ABOUT_IMAGE = "/images/about-hall.jpg";
