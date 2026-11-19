@@ -1,24 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { NAV_ITEMS } from "@/lib/site-content";
 
-export function SiteHeader({ siteName }: { siteName: string }) {
+export function SiteHeader({
+  siteName,
+  activePath = "",
+}: {
+  siteName: string;
+  activePath?: string;
+}) {
   const [open, setOpen] = useState(false);
+  const [staff, setStaff] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then((data) => {
+        const role = data?.session?.role;
+        setStaff(role === "admin" || role === "staff" || role === "supervisor");
+      })
+      .catch(() => setStaff(false));
+  }, []);
 
   return (
     <header className="site-header">
       <div className="container site-header-inner">
-        <Link href="/#top" className="brand">
+        <Link href="/" className="brand">
           <span className="brand-mark">福</span>
           <span>{siteName}</span>
         </Link>
         <nav className="nav-links">
-          <a href="#about">장례식장 안내</a>
-          <a href="#facilities">시설안내</a>
-          <a href="#guide">이용안내</a>
-          <a href="#rooms">빈소현황</a>
-          <a href="#location">오시는 길</a>
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={activePath === item.href ? "active" : undefined}
+            >
+              {item.label}
+            </Link>
+          ))}
+          {staff && (
+            <Link href="/admin" className="nav-admin">
+              홈페이지관리
+            </Link>
+          )}
         </nav>
         <div className="nav-actions">
           <Link className="btn btn-ghost" href="/guest/login">
@@ -29,7 +56,6 @@ export function SiteHeader({ siteName }: { siteName: string }) {
             type="button"
             aria-label="메뉴"
             onClick={() => setOpen((v) => !v)}
-            style={{ display: "inline-flex" }}
           >
             메뉴
           </button>
@@ -38,27 +64,23 @@ export function SiteHeader({ siteName }: { siteName: string }) {
       {open && (
         <div className="container" style={{ paddingBottom: "1rem" }}>
           <div style={{ display: "grid", gap: "0.6rem" }}>
-            <a href="#about" onClick={() => setOpen(false)}>
-              장례식장 안내
-            </a>
-            <a href="#facilities" onClick={() => setOpen(false)}>
-              시설안내
-            </a>
-            <a href="#guide" onClick={() => setOpen(false)}>
-              이용안내
-            </a>
-            <a href="#rooms" onClick={() => setOpen(false)}>
-              빈소현황
-            </a>
-            <a href="#location" onClick={() => setOpen(false)}>
-              오시는 길
-            </a>
+            {NAV_ITEMS.map((item) => (
+              <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
+                {item.label}
+              </Link>
+            ))}
             <Link href="/rooms" onClick={() => setOpen(false)}>
               추모글 남기기
             </Link>
-            <Link href="/admin/login" onClick={() => setOpen(false)}>
-              관리자
-            </Link>
+            {staff ? (
+              <Link href="/admin" onClick={() => setOpen(false)}>
+                홈페이지관리
+              </Link>
+            ) : (
+              <Link href="/admin/login" onClick={() => setOpen(false)}>
+                관리자 로그인
+              </Link>
+            )}
           </div>
         </div>
       )}

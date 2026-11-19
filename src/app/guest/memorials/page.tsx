@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { downloadElementAsPdf } from "@/lib/pdf";
+import { formatKstDateTime } from "@/lib/time";
 
 type Memorial = {
   id: string;
@@ -100,7 +101,7 @@ export default function GuestMemorialsPage() {
                   {item.authorRelation ? ` (${item.authorRelation})` : ""}
                 </strong>
                 <div style={{ color: "var(--muted)", fontSize: "0.85rem" }}>
-                  {new Date(item.createdAt).toLocaleString("ko-KR")}
+                  {formatKstDateTime(item.createdAt)}
                 </div>
                 <p style={{ whiteSpace: "pre-wrap" }}>{item.content}</p>
               </article>

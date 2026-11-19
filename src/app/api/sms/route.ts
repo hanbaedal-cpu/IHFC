@@ -21,6 +21,16 @@ export async function GET() {
   return Response.json({ items: logs });
 }
 
+export async function DELETE(request: Request) {
+  const admin = await requireAdmin();
+  if (!admin) return jsonError("권한이 없습니다.", 401);
+  const id = new URL(request.url).searchParams.get("id");
+  await connectDB();
+  if (id) await SmsLog.findByIdAndDelete(id);
+  else await SmsLog.deleteMany({});
+  return Response.json({ ok: true });
+}
+
 export async function POST(request: Request) {
   const admin = await requireAdmin();
   if (!admin) return jsonError("권한이 없습니다.", 401);

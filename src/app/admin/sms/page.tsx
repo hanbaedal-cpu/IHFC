@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { formatPhone } from "@/lib/utils";
+import { formatKstDateTime } from "@/lib/time";
 
 type Consultation = {
   _id: string;
@@ -144,7 +145,7 @@ function SmsInner() {
             <tbody>
               {logs.map((log) => (
                 <tr key={String(log._id)}>
-                  <td>{new Date(String(log.createdAt)).toLocaleString("ko-KR")}</td>
+                  <td>{formatKstDateTime(String(log.createdAt))}</td>
                   <td>
                     {String(log.successCount)}/
                     {Array.isArray(log.recipients) ? log.recipients.length : 0}

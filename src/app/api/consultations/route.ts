@@ -50,6 +50,9 @@ export async function PATCH(request: Request) {
         id: z.string(),
         status: z.enum(["new", "contacted", "closed"]).optional(),
         adminNote: z.string().max(1000).optional(),
+        name: z.string().min(1).max(50).optional(),
+        phone: z.string().min(9).max(20).optional(),
+        memo: z.string().max(500).optional(),
       })
       .parse(await request.json());
 
@@ -59,6 +62,9 @@ export async function PATCH(request: Request) {
       {
         ...(body.status ? { status: body.status } : {}),
         ...(body.adminNote !== undefined ? { adminNote: body.adminNote } : {}),
+        ...(body.name ? { name: body.name.trim() } : {}),
+        ...(body.phone ? { phone: normalizePhone(body.phone) } : {}),
+        ...(body.memo !== undefined ? { memo: body.memo } : {}),
       },
       { new: true }
     );
@@ -69,4 +75,14 @@ export async function PATCH(request: Request) {
     console.error(error);
     return jsonError("수정에 실패했습니다.", 500);
   }
+}
+
+export async function DELETE(request: Request) {
+  const admin = await requireAdmin();
+  if (!admin) return jsonError("권한이 없습니다.", 401);
+  const id = new URL(request.url).searchParams.get("id");
+  if (!id) return jsonError("id가 필요합니다.");
+  await connectDB();
+  await Consultation.findByIdAndDelete(id);
+  return Response.json({ ok: true });
 }

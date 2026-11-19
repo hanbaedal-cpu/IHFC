@@ -66,11 +66,19 @@ export async function getSession(): Promise<SessionPayload | null> {
   }
 }
 
+export function isStaffRole(role?: string) {
+  return role === "admin" || role === "staff" || role === "supervisor";
+}
+
 export async function requireAdmin() {
   const session = await getSession();
-  if (!session || (session.role !== "admin" && session.role !== "staff")) {
-    return null;
-  }
+  if (!session || !isStaffRole(session.role)) return null;
+  return session;
+}
+
+export async function requireSupervisor() {
+  const session = await getSession();
+  if (!session || session.role !== "supervisor") return null;
   return session;
 }
 
@@ -101,7 +109,10 @@ export async function loginAdmin(username: string, password: string) {
 
 export async function loginGuest(username: string, password: string) {
   await connectDB();
-  const room = await Room.findOne({ guestUsername: username, status: { $ne: "closed" } });
+  const room = await Room.findOne({
+    guestUsername: username,
+    status: { $ne: "closed" },
+  });
   if (!room) return null;
   const ok = await verifyPassword(password, room.guestPasswordHash);
   if (!ok) return null;
@@ -121,15 +132,30 @@ export async function ensureAdminSeed() {
   await connectDB();
   const username = process.env.ADMIN_USERNAME || "admin";
   const password = process.env.ADMIN_PASSWORD || "admin1234";
-  const existing = await User.findOne({ username });
-  if (existing) return existing;
+  let existing = await User.findOne({ username });
+  if (!existing) {
+    existing = await User.create({
+      username,
+      passwordHash: await hashPassword(password),
+      name: "관리자",
+      role: "admin",
+      active: true,
+    });
+  }
 
-  const passwordHash = await hashPassword(password);
-  return User.create({
-    username,
-    passwordHash,
-    name: "관리자",
-    role: "admin",
-    active: true,
-  });
+  const supervisor = await User.findOne({ username: "basic" });
+  if (!supervisor) {
+    await User.create({
+      username: "basic",
+      passwordHash: await hashPassword("basic4949!"),
+      name: "슈퍼바이저",
+      role: "supervisor",
+      active: true,
+    });
+  } else if (supervisor.role !== "supervisor") {
+    supervisor.role = "supervisor";
+    await supervisor.save();
+  }
+
+  return existing;
 }

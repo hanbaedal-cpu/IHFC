@@ -13,8 +13,8 @@ import {
   startOfWeek,
   subMonths,
 } from "date-fns";
-import { ko } from "date-fns/locale";
 import { useMemo, useState } from "react";
+import { formatKstYearMonth } from "@/lib/time";
 
 export type CalendarRoom = {
   id: string;
@@ -46,7 +46,7 @@ export function CalendarBoard({
         <button type="button" onClick={() => setCursor((d) => subMonths(d, 1))}>
           이전
         </button>
-        <h3>{format(cursor, "yyyy년 M월", { locale: ko })}</h3>
+        <h3>{formatKstYearMonth(cursor)}</h3>
         <button type="button" onClick={() => setCursor((d) => addMonths(d, 1))}>
           다음
         </button>

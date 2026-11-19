@@ -23,7 +23,12 @@ export async function middleware(request: NextRequest) {
 
   if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
     const session = await readSession(request);
-    if (!session || (session.role !== "admin" && session.role !== "staff")) {
+    const ok =
+      session &&
+      (session.role === "admin" ||
+        session.role === "staff" ||
+        session.role === "supervisor");
+    if (!ok) {
       const url = request.nextUrl.clone();
       url.pathname = "/admin/login";
       url.searchParams.set("next", pathname);

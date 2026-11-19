@@ -6,6 +6,8 @@ services:
     buildCommand: npm install && npm run build
     startCommand: npm run start
     envVars:
+      - key: TZ
+        value: Asia/Seoul
       - key: NODE_VERSION
         value: "20"
       - key: MONGODB_URI

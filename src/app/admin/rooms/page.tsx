@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CalendarBoard, type CalendarRoom } from "@/components/CalendarBoard";
+import { formatKstDateTime, toKstDatetimeLocal } from "@/lib/time";
 
 type Room = CalendarRoom & {
   roomCode: string;
@@ -75,9 +76,9 @@ export default function AdminRoomsPage() {
       deceasedName: room.deceasedName,
       hostName: room.hostName,
       burialPlace: room.burialPlace || "",
-      startAt: room.startAt ? room.startAt.slice(0, 16) : "",
-      endAt: room.endAt ? room.endAt.slice(0, 16) : "",
-      farewellAt: room.farewellAt ? room.farewellAt.slice(0, 16) : "",
+      startAt: toKstDatetimeLocal(room.startAt),
+      endAt: toKstDatetimeLocal(room.endAt),
+      farewellAt: toKstDatetimeLocal(room.farewellAt),
       status: room.status,
       publicNote: room.publicNote || "",
       allowPublicMemorial: room.allowPublicMemorial ?? true,
@@ -108,6 +109,7 @@ export default function AdminRoomsPage() {
       <h1>빈소 등록 · 일정표</h1>
       <p style={{ color: "var(--muted)" }}>
         달력에서 빈소 일정을 한눈에 확인하고, 등록 시 유가족 전용 아이디가 자동 발급됩니다.
+        일정 입력·표시는 모두 대한민국 표준시(KST, UTC+9) 기준입니다.
       </p>
 
       <div className="panel">
@@ -236,8 +238,8 @@ export default function AdminRoomsPage() {
                   {room.hostName}
                 </td>
                 <td>
-                  {new Date(room.startAt).toLocaleString("ko-KR")}
-                  <br />~ {new Date(room.endAt).toLocaleString("ko-KR")}
+                  {formatKstDateTime(room.startAt)}
+                  <br />~ {formatKstDateTime(room.endAt)}
                 </td>
                 <td>
                   {room.guestUsername}

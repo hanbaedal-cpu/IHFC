@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/mongodb";
 import { hashPassword, requireAdmin } from "@/lib/auth";
 import { Room } from "@/models/Room";
 import { generateGuestCredentials, jsonError, maskName } from "@/lib/utils";
+import { parseKstDatetimeLocal } from "@/lib/time";
 
 const createSchema = z.object({
   roomCode: z.string().min(1),
@@ -89,9 +90,9 @@ export async function POST(request: Request) {
 
   try {
     const body = createSchema.parse(await request.json());
-    const startAt = new Date(body.startAt);
-    const endAt = new Date(body.endAt);
-    if (Number.isNaN(startAt.getTime()) || Number.isNaN(endAt.getTime())) {
+    const startAt = parseKstDatetimeLocal(body.startAt);
+    const endAt = parseKstDatetimeLocal(body.endAt);
+    if (!startAt || !endAt) {
       return jsonError("일정 날짜가 올바르지 않습니다.");
     }
     if (endAt < startAt) return jsonError("종료일은 시작일 이후여야 합니다.");
@@ -102,7 +103,9 @@ export async function POST(request: Request) {
       ...body,
       startAt,
       endAt,
-      farewellAt: body.farewellAt ? new Date(body.farewellAt) : endAt,
+      farewellAt: body.farewellAt
+        ? parseKstDatetimeLocal(body.farewellAt) || endAt
+        : endAt,
       status: body.status || "preparing",
       guestUsername: credentials.username,
       guestPasswordHash: await hashPassword(credentials.password),
@@ -145,9 +148,21 @@ export async function PATCH(request: Request) {
     if (body.allowPublicMemorial !== undefined) {
       room.allowPublicMemorial = body.allowPublicMemorial;
     }
-    if (body.startAt) room.startAt = new Date(body.startAt);
-    if (body.endAt) room.endAt = new Date(body.endAt);
-    if (body.farewellAt) room.farewellAt = new Date(body.farewellAt);
+    if (body.startAt) {
+      const parsed = parseKstDatetimeLocal(body.startAt);
+      if (!parsed) return jsonError("시작일이 올바르지 않습니다.");
+      room.startAt = parsed;
+    }
+    if (body.endAt) {
+      const parsed = parseKstDatetimeLocal(body.endAt);
+      if (!parsed) return jsonError("종료일이 올바르지 않습니다.");
+      room.endAt = parsed;
+    }
+    if (body.farewellAt) {
+      const parsed = parseKstDatetimeLocal(body.farewellAt);
+      if (!parsed) return jsonError("발인일시가 올바르지 않습니다.");
+      room.farewellAt = parsed;
+    }
 
     if (body.regenerateGuest) {
       const credentials = generateGuestCredentials(room.roomCode);

@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
 import { connectDB } from "@/lib/mongodb";
 import { Room } from "@/models/Room";
 import { maskName } from "@/lib/utils";
+import { formatKstMonthDayTime } from "@/lib/time";
 
 export const dynamic = "force-dynamic";
 
@@ -37,9 +36,7 @@ export default async function RoomsPage() {
                   상주 {maskName(room.hostName)}
                   <br />
                   발인{" "}
-                  {room.farewellAt
-                    ? format(new Date(room.farewellAt), "M월 d일 HH:mm", { locale: ko })
-                    : "-"}
+                  {room.farewellAt ? formatKstMonthDayTime(room.farewellAt) : "-"}
                 </p>
                 <div className="inline-actions" style={{ marginTop: "0.8rem" }}>
                   {room.allowPublicMemorial && (

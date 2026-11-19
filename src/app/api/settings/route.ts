@@ -27,6 +27,10 @@ export async function PUT(request: Request) {
         notice: z.string().optional(),
         aboutTitle: z.string().optional(),
         aboutBody: z.string().optional(),
+        facebookUrl: z.string().optional(),
+        instagramUrl: z.string().optional(),
+        youtubeUrl: z.string().optional(),
+        naverBlogUrl: z.string().optional(),
       })
       .parse(await request.json());
 
@@ -42,4 +46,13 @@ export async function PUT(request: Request) {
     console.error(error);
     return jsonError("설정 저장에 실패했습니다.", 500);
   }
+}
+
+export async function DELETE() {
+  const admin = await requireAdmin();
+  if (!admin) return jsonError("권한이 없습니다.", 401);
+  await connectDB();
+  await SiteSettings.deleteOne({ key: "main" });
+  const settings = await getSiteSettings();
+  return Response.json({ ok: true, settings });
 }

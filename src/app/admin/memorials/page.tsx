@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { formatKstDateTime } from "@/lib/time";
 
 type Room = { id: string; roomName: string; deceasedName: string };
 type Memorial = {
@@ -64,7 +65,7 @@ export default function AdminMemorialsPage() {
               {item.authorRelation ? ` (${item.authorRelation})` : ""}
             </strong>
             <div style={{ color: "var(--muted)", fontSize: "0.85rem" }}>
-              {new Date(item.createdAt).toLocaleString("ko-KR")}
+              {formatKstDateTime(item.createdAt)}
             </div>
             <p style={{ whiteSpace: "pre-wrap" }}>{item.content}</p>
             <button className="btn btn-ghost" type="button" onClick={() => remove(item.id)}>

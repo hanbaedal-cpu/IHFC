@@ -17,7 +17,11 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const roomId = searchParams.get("roomId");
   const session = await getSession();
-  const admin = session && (session.role === "admin" || session.role === "staff");
+  const admin =
+    session &&
+    (session.role === "admin" ||
+      session.role === "staff" ||
+      session.role === "supervisor");
   const guest = session?.role === "guest" ? session : null;
 
   if (!roomId && !admin && !guest) {

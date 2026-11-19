@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
 import { connectDB } from "@/lib/mongodb";
 import { getSiteSettings } from "@/models/SiteSettings";
 import { Room } from "@/models/Room";
 import { maskName } from "@/lib/utils";
+import { formatKstDate, formatKstMonthDayTime } from "@/lib/time";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { ConsultationForm } from "@/components/home/ConsultationForm";
 import { FacilityGallery } from "@/components/home/FacilityGallery";
@@ -240,9 +239,7 @@ export default async function HomePage() {
         <div className="container">
           <div className="section-label">MEMORIAL STATUS</div>
           <h2>빈소현황</h2>
-          <p className="section-lead">
-            {format(new Date(), "yyyy년 M월 d일", { locale: ko })} 기준
-          </p>
+          <p className="section-lead">{formatKstDate(new Date())} 기준 (한국시간)</p>
           <div className="table-wrap">
             <table>
               <thead>
@@ -268,7 +265,7 @@ export default async function HomePage() {
                     <td>상주 {maskName(room.hostName)}</td>
                     <td>
                       {room.farewellAt
-                        ? format(new Date(room.farewellAt), "M월 d일 HH:mm", { locale: ko })
+                        ? formatKstMonthDayTime(room.farewellAt)
                         : "-"}
                     </td>
                     <td>{room.burialPlace || "-"}</td>

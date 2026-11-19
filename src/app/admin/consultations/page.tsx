@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { formatPhone } from "@/lib/utils";
+import { formatKstDateTime } from "@/lib/time";
 
 type Item = {
   _id: string;
@@ -100,7 +101,7 @@ export default function ConsultationsPage() {
                 <td>
                   <span className={`badge ${item.status}`}>{item.status}</span>
                 </td>
-                <td>{new Date(item.createdAt).toLocaleString("ko-KR")}</td>
+                <td>{formatKstDateTime(item.createdAt)}</td>
                 <td>
                   <div className="inline-actions">
                     <button

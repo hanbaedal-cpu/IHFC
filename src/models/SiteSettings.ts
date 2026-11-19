@@ -33,6 +33,10 @@ const SiteSettingsSchema = new Schema(
       default:
         "근로복지공단 인천병원 장례식장은 합리적인 요금과 투명한 운영을 원칙으로 합니다. 유가족께서 오직 고인을 추모하는 일에만 마음을 쓰실 수 있도록 모든 절차를 세심하게 돕겠습니다.",
     },
+    facebookUrl: { type: String, default: "" },
+    instagramUrl: { type: String, default: "" },
+    youtubeUrl: { type: String, default: "" },
+    naverBlogUrl: { type: String, default: "" },
   },
   { timestamps: true }
 );
