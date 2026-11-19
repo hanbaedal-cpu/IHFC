@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR, Noto_Serif_KR } from "next/font/google";
+import { VisitTracker } from "@/components/home/VisitTracker";
 import "./globals.css";
 
 const bodyFont = Noto_Sans_KR({
@@ -27,7 +28,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${bodyFont.variable} ${displayFont.variable} h-full`}>
-      <body className="min-h-full antialiased">{children}</body>
+      <body className="min-h-full antialiased">
+        <VisitTracker />
+        {children}
+      </body>
     </html>
   );
 }

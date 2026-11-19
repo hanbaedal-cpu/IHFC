@@ -22,11 +22,12 @@ export function FacilityGallery({ facilities }: { facilities: Facility[] }) {
           <article key={item.name} className="facility-card">
             <button
               type="button"
-              className="thumb"
-              style={{ backgroundImage: `url(${item.image})` }}
+              className="thumb thumb-media"
               onClick={() => setActive(item)}
               aria-label={`${item.name} 이미지 크게 보기`}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={item.image} alt={item.name} />
               <span className="thumb-label">{item.size}</span>
             </button>
             <div className="body">

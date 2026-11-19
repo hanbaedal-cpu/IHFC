@@ -5,6 +5,7 @@ import { SitePopup } from "@/components/home/SitePopup";
 type SettingsLike = {
   siteName: string;
   notice?: string;
+  phone?: string;
   facebookUrl?: string;
   instagramUrl?: string;
   youtubeUrl?: string;
@@ -27,7 +28,11 @@ export function PublicShell({
       {showNotice && settings.notice ? (
         <div className="top-banner">{settings.notice}</div>
       ) : null}
-      <SiteHeader siteName={settings.siteName} activePath={activePath} />
+      <SiteHeader
+        siteName={settings.siteName}
+        phone={settings.phone}
+        activePath={activePath}
+      />
       {children}
       <SnsBar
         facebookUrl={settings.facebookUrl}
