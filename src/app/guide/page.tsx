@@ -14,7 +14,7 @@ import {
 
 export const dynamic = "force-dynamic";
 
-const GUIDE_ICONS = ["☎", "📄", "🏠", "🚗", "⚱"];
+const GUIDE_ICONS = ["☎", "🏥", "♥", "🚗", "⚱"];
 
 export default async function GuidePage() {
   await connectDB();
@@ -34,42 +34,42 @@ export default async function GuidePage() {
   return (
     <main>
       <PublicShell settings={settings} activePath="/guide" locale={locale}>
-        <section className="page-section guide-page">
-          <div className="container guide-inner">
-            <div className="section-label">{t(locale, "guide.label")}</div>
-            <h1 className="page-title">
-              {page.title || t(locale, "guide.title")}
-            </h1>
-            <p className="page-lead">{page.body || t(locale, "guide.lead")}</p>
-
-            <div className="guide-steps">
+        <section className="rd-section rd-guide">
+          <div className="rd-guide-inner">
+            <p className="rd-label">{t(locale, "guide.label")}</p>
+            <h1 className="rd-title">{page.title || t(locale, "guide.title")}</h1>
+            <p className="rd-lead">{page.body || t(locale, "guide.lead")}</p>
+            <div className="rd-guide-steps">
               {guideSteps.map((step, index) => (
-                <article key={step.title} className="guide-step">
-                  <div className="guide-step-icon" aria-hidden>
-                    {GUIDE_ICONS[index] || "·"}
+                <article key={step.title} className="rd-guide-step">
+                  <div className="rd-guide-head">
+                    <div className="rd-guide-icon" aria-hidden>
+                      {GUIDE_ICONS[index] || "·"}
+                    </div>
+                    <div>
+                      <p className="rd-guide-meta">{step.meta}</p>
+                      <h2 style={{ margin: "0.25rem 0 0", fontSize: "1.05rem" }}>
+                        {step.title}
+                      </h2>
+                    </div>
                   </div>
-                  <div className="guide-step-body">
-                    <div className="guide-step-meta">{step.meta}</div>
-                    <h2>{step.title}</h2>
-                    <ul>
-                      {step.items.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
+                  <ul>
+                    {step.items.map((item) => (
+                      <li key={item}>
+                        <span className="dot" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </article>
               ))}
             </div>
-
-            <div className="guide-cta">
+            <div className="rd-guide-cta">
               <div>
                 <p>{t(locale, "guide.help")}</p>
                 <strong>{t(locale, "guide.help2")}</strong>
               </div>
-              <a className="btn btn-gold guide-cta-btn" href={`tel:${tel}`}>
-                <span aria-hidden>☎</span>
-                {phone}
-              </a>
+              <a href={`tel:${tel}`}>☎ {phone}</a>
             </div>
           </div>
         </section>

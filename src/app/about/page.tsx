@@ -1,8 +1,7 @@
-import Image from "next/image";
 import { connectDB } from "@/lib/mongodb";
 import { getSiteSettings } from "@/models/SiteSettings";
 import { getPageContent } from "@/models/PageContent";
-import { ABOUT_IMAGE } from "@/lib/site-content";
+import { ABOUT_IMAGE_LOCAL } from "@/lib/site-content";
 import { PublicShell } from "@/components/home/PublicShell";
 import { SiteFooter } from "@/components/home/SiteFooter";
 import { getLocale } from "@/lib/i18n/locale";
@@ -35,35 +34,28 @@ export default async function AboutPage() {
   return (
     <main>
       <PublicShell settings={settings} activePath="/about" locale={locale}>
-        <section className="page-section about-page">
-          <div className="container">
-            <div className="about-grid">
-              <div className="about-photo">
-                <Image
-                  src={ABOUT_IMAGE}
-                  alt={settings.siteName}
-                  width={1000}
-                  height={880}
-                  priority
-                />
-              </div>
-              <div className="about-copy">
-                <div className="section-label">{t(locale, "about.label")}</div>
-                <h1 className="about-title">{title}</h1>
-                <p className="about-body">{body}</p>
-                <div className="about-stats">
-                  <div className="about-stat">
-                    <strong>24h</strong>
-                    <span>{t(locale, "about.stat1")}</span>
-                  </div>
-                  <div className="about-stat">
-                    <strong>4</strong>
-                    <span>{t(locale, "about.stat2")}</span>
-                  </div>
-                  <div className="about-stat">
-                    <strong>100%</strong>
-                    <span>{t(locale, "about.stat3")}</span>
-                  </div>
+        <section className="rd-section rd-about">
+          <div className="rd-wrap rd-about-grid">
+            <div className="rd-about-photo">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={ABOUT_IMAGE_LOCAL} alt={settings.siteName} />
+            </div>
+            <div>
+              <p className="rd-label">{t(locale, "about.label")}</p>
+              <h1 className="rd-title">{title}</h1>
+              <p className="rd-lead">{body}</p>
+              <div className="rd-about-stats">
+                <div className="rd-about-stat">
+                  <strong>24h</strong>
+                  <span>{t(locale, "about.stat1")}</span>
+                </div>
+                <div className="rd-about-stat">
+                  <strong>4</strong>
+                  <span>{t(locale, "about.stat2")}</span>
+                </div>
+                <div className="rd-about-stat">
+                  <strong>100%</strong>
+                  <span>{t(locale, "about.stat3")}</span>
                 </div>
               </div>
             </div>

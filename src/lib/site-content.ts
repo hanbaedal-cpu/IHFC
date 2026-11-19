@@ -120,4 +120,12 @@ export const GUIDE_STEPS = [
   },
 ];
 
-export const ABOUT_IMAGE = "/images/about-hall.jpg";
+export const ABOUT_IMAGE =
+  "https://readdy.ai/api/search-image?query=Modern%20calm%20hospital%20funeral%20hall%20building%20exterior%20with%20trees%2C%20soft%20morning%20light%2C%20muted%20sage%20green%20and%20ivory%20tones%2C%20serene%20respectful%20architecture%20photography&width=1000&height=880&seq=about-01&orientation=landscape";
+
+export const HERO_IMAGE =
+  "https://readdy.ai/api/search-image?query=Soft%20dreamy%20close%20up%20of%20white%20chrysanthemum%20flowers%20with%20pale%20yellow%20green%20centers%2C%20misty%20light%20sage%20green%20background%2C%20bright%20airy%20high%20key%20photography%2C%20calm%20memorial%20mood%2C%20empty%20space%20on%20the%20left&width=1920&height=1080&seq=hero-chrysanthemum-01&orientation=landscape";
+
+/** 관리자/직접 업로드용 로컬 전경 이미지 (장례식장 안내 페이지) */
+export const ABOUT_IMAGE_LOCAL = "/images/about-hall.jpg";
+

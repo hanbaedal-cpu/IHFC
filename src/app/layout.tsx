@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { Noto_Sans_KR, Noto_Serif_KR } from "next/font/google";
 import { VisitTracker } from "@/components/home/VisitTracker";
 import "./globals.css";
+import "@/styles/public.css";
 
 const bodyFont = Noto_Sans_KR({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["300", "400", "500", "700", "900"],
 });
 
 const displayFont = Noto_Serif_KR({

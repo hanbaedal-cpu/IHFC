@@ -14,6 +14,7 @@ export function SiteHeader({
   locale = "ko",
   navItems,
   labels,
+  notice,
 }: {
   siteName: string;
   phone?: string;
@@ -28,6 +29,7 @@ export function SiteHeader({
     adminLogin: string;
     consult24: string;
   };
+  notice?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [staff, setStaff] = useState(false);
@@ -44,11 +46,11 @@ export function SiteHeader({
   }, []);
 
   return (
-    <header className="site-header">
-      <div className="header-utility">
-        <div className="container header-utility-inner">
+    <header className="rd-header-wrap">
+      <div className="rd-utility">
+        <div className="rd-utility-inner">
           <LanguageSwitcher locale={locale} />
-          <div className="header-utility-links">
+          <div className="rd-utility-links">
             <Link href="/sitemap">{labels.sitemap}</Link>
             <Link href="/guest/login">{labels.guestLogin}</Link>
             {staff ? (
@@ -56,79 +58,82 @@ export function SiteHeader({
             ) : (
               <Link href="/admin/login">{labels.adminLogin}</Link>
             )}
-            <a href={`tel:${tel}`} className="header-utility-phone">
-              {labels.consult24} {phone}
+          </div>
+        </div>
+      </div>
+
+      <div className="rd-banner">
+        {notice ||
+          "근로복지공단 인천병원 장례식장은 24시간 상담 및 고인 이송을 지원합니다."}
+      </div>
+
+      <div className="rd-header">
+        <div className="rd-nav">
+          <Link href="/" className="rd-brand">
+            <span className="rd-brand-mark" aria-hidden>
+              ❧
+            </span>
+            <span>
+              <small>KCOMWEL INCHEON HOSPITAL FUNERAL CENTER</small>
+              <strong>{siteName}</strong>
+            </span>
+          </Link>
+
+          <nav className="rd-links">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={activePath === item.href ? "active" : undefined}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <a className="rd-header-cta" href={`tel:${tel}`}>
+              ☎ {labels.consult24}
             </a>
-          </div>
-        </div>
-      </div>
-
-      <div className="container site-header-inner">
-        <Link href="/" className="brand">
-          <span className="brand-mark">福</span>
-          <span className="brand-text">
-            <small>KCOMWEL INCHEON HOSPITAL FUNERAL CENTER</small>
-            <strong>{siteName}</strong>
-          </span>
-        </Link>
-
-        <nav className="nav-links">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={activePath === item.href ? "active" : undefined}
+            <button
+              className="rd-menu-btn"
+              type="button"
+              aria-label="메뉴"
+              onClick={() => setOpen((v) => !v)}
             >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="nav-actions">
-          <a className="btn btn-gold header-consult" href={`tel:${tel}`}>
-            {labels.consult24}
-          </a>
-          <button
-            className="btn btn-ghost menu-toggle"
-            type="button"
-            aria-label="메뉴"
-            onClick={() => setOpen((v) => !v)}
-          >
-            메뉴
-          </button>
-        </div>
-      </div>
-
-      {open && (
-        <div className="container mobile-menu">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
-              {item.label}
-            </Link>
-          ))}
-          <Link href="/sitemap" onClick={() => setOpen(false)}>
-            {labels.sitemap}
-          </Link>
-          <Link href="/guest/login" onClick={() => setOpen(false)}>
-            {labels.guestLogin}
-          </Link>
-          <Link href="/rooms" onClick={() => setOpen(false)}>
-            {labels.memorialWrite}
-          </Link>
-          {staff ? (
-            <Link href="/admin" onClick={() => setOpen(false)}>
-              {labels.admin}
-            </Link>
-          ) : (
-            <Link href="/admin/login" onClick={() => setOpen(false)}>
-              {labels.adminLogin}
-            </Link>
-          )}
-          <div className="mobile-lang">
-            <LanguageSwitcher locale={locale} />
+              ☰
+            </button>
           </div>
         </div>
-      )}
+
+        {open && (
+          <div className="rd-mobile">
+            {navItems.map((item) => (
+              <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
+                {item.label}
+              </Link>
+            ))}
+            <Link href="/sitemap" onClick={() => setOpen(false)}>
+              {labels.sitemap}
+            </Link>
+            <Link href="/guest/login" onClick={() => setOpen(false)}>
+              {labels.guestLogin}
+            </Link>
+            <Link href="/rooms" onClick={() => setOpen(false)}>
+              {labels.memorialWrite}
+            </Link>
+            {staff ? (
+              <Link href="/admin" onClick={() => setOpen(false)}>
+                {labels.admin}
+              </Link>
+            ) : (
+              <Link href="/admin/login" onClick={() => setOpen(false)}>
+                {labels.adminLogin}
+              </Link>
+            )}
+          </div>
+        )}
+      </div>
     </header>
   );
 }

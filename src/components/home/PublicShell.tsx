@@ -19,13 +19,11 @@ export function PublicShell({
   settings,
   activePath = "",
   children,
-  showNotice = true,
   locale = "ko",
 }: {
   settings: SettingsLike;
   activePath?: string;
   children: React.ReactNode;
-  showNotice?: boolean;
   locale?: Locale;
 }) {
   const navItems = NAV_ITEMS.map((item) => ({
@@ -35,14 +33,12 @@ export function PublicShell({
 
   return (
     <>
-      {showNotice && settings.notice ? (
-        <div className="top-banner">{settings.notice}</div>
-      ) : null}
       <SiteHeader
         siteName={settings.siteName}
         phone={settings.phone}
         activePath={activePath}
         locale={locale}
+        notice={settings.notice}
         navItems={navItems}
         labels={{
           sitemap: t(locale, "nav.sitemap"),

@@ -31,22 +31,16 @@ export default async function FacilitiesPage() {
   return (
     <main>
       <PublicShell settings={settings} activePath="/facilities" locale={locale}>
-        <section className="section" style={{ background: "#fff" }}>
-          <div className="container">
-            <div className="section-label">{t(locale, "facilities.label")}</div>
-            <h1
-              style={{
-                fontFamily: "var(--font-display), serif",
-                color: "var(--green-900)",
-                marginTop: 0,
-              }}
-            >
+        <section className="rd-section rd-facilities">
+          <div className="rd-wrap">
+            <p className="rd-label">{t(locale, "facilities.label")}</p>
+            <h1 className="rd-title">
               {page.title || t(locale, "facilities.title")}
             </h1>
-            <p className="section-lead">
+            <p className="rd-lead" style={{ marginInline: "auto", maxWidth: "40rem" }}>
               {page.body || t(locale, "facilities.lead")}
             </p>
-            <p style={{ color: "var(--muted)", fontSize: "0.92rem" }}>
+            <p style={{ marginTop: "0.5rem", color: "var(--rd-text-muted)", fontSize: "0.86rem" }}>
               {t(locale, "facilities.click")}
             </p>
             <FacilityGallery facilities={facilities} />

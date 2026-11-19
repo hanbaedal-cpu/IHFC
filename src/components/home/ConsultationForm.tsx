@@ -18,12 +18,10 @@ type Labels = {
 
 export function ConsultationForm({
   phone = "032-500-0444",
-  variant = "hero",
   locale = "ko",
   labels,
 }: {
   phone?: string;
-  variant?: "hero" | "section";
   locale?: Locale;
   labels: Labels;
 }) {
@@ -63,42 +61,49 @@ export function ConsultationForm({
   }
 
   return (
-    <form className={`consult-card consult-${variant}`} onSubmit={onSubmit}>
-      <div className="section-label">24H CONSULTATION</div>
-      <h2 style={{ marginTop: 0, fontSize: "1.45rem" }}>{labels.title}</h2>
-      <p className="consult-lead">{labels.lead}</p>
-      {message && <div className={`msg ${message.type}`}>{message.text}</div>}
-      <div className="consult-fields">
+    <div className="rd-consult">
+      <p className="rd-label">24H CONSULTATION</p>
+      <h2>{labels.title}</h2>
+      <p>{labels.lead}</p>
+      {message && (
+        <div className={`msg ${message.type}`} style={{ marginTop: "0.8rem" }}>
+          {message.text}
+        </div>
+      )}
+      <form onSubmit={onSubmit}>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder={labels.name}
           required
+          type="text"
         />
         <input
           value={phoneValue}
           onChange={(e) => setPhoneValue(e.target.value)}
           placeholder={labels.phone}
           required
+          type="tel"
         />
-      </div>
-      <label className="agree-row">
-        <input
-          type="checkbox"
-          checked={agreed}
-          onChange={(e) => setAgreed(e.target.checked)}
-          required
-        />
-        <span>{labels.agree}</span>
-      </label>
-      <button className="btn btn-primary consult-submit" type="submit" disabled={loading}>
-        {loading ? labels.submitting : labels.submit}
-      </button>
-      <p className="consult-emergency">
-        {labels.emergency} <a href={`tel:${tel}`}>{phone}</a>
-        {labels.callPlease}
-      </p>
+        <label>
+          <input
+            type="checkbox"
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
+            required
+          />
+          <span>{labels.agree}</span>
+        </label>
+        <button type="submit" disabled={loading}>
+          {loading ? labels.submitting : `${labels.submit.replace("→", "").trim()} →`}
+        </button>
+        <p className="hint">
+          {labels.emergency}{" "}
+          <a href={`tel:${tel}`}>{phone}</a>
+          {labels.callPlease}
+        </p>
+      </form>
       <span className="sr-only">{locale}</span>
-    </form>
+    </div>
   );
 }
