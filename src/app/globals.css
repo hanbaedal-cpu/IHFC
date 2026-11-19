@@ -1025,26 +1025,41 @@ th {
   top: 45%;
   z-index: 45;
   display: grid;
-  gap: 0.45rem;
+  gap: 0.55rem;
 }
 
 .sns-btn {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.55rem;
+  height: 2.55rem;
   border-radius: 999px;
   display: grid;
   place-items: center;
-  background: var(--green-800);
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 800;
-  box-shadow: 0 8px 18px rgba(15, 42, 34, 0.2);
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(15, 42, 34, 0.18);
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sns-btn svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.sns-btn:hover {
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 10px 20px rgba(15, 42, 34, 0.24);
 }
 
 .sns-btn.muted {
-  background: #9aa8a1;
-  opacity: 0.55;
+  opacity: 0.42;
+  filter: grayscale(0.35);
   cursor: default;
+  box-shadow: none;
+}
+
+.sns-btn.muted:hover {
+  transform: none;
 }
 
 .popup-overlay {
