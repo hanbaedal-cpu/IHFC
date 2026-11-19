@@ -2,16 +2,32 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { NAV_ITEMS } from "@/lib/site-content";
+import { LanguageSwitcher } from "@/components/home/LanguageSwitcher";
+import type { Locale } from "@/lib/i18n/types";
+
+type NavItem = { href: string; label: string };
 
 export function SiteHeader({
   siteName,
   phone = "032-500-0444",
   activePath = "",
+  locale = "ko",
+  navItems,
+  labels,
 }: {
   siteName: string;
   phone?: string;
   activePath?: string;
+  locale?: Locale;
+  navItems: NavItem[];
+  labels: {
+    sitemap: string;
+    admin: string;
+    guestLogin: string;
+    memorialWrite: string;
+    adminLogin: string;
+    consult24: string;
+  };
 }) {
   const [open, setOpen] = useState(false);
   const [staff, setStaff] = useState(false);
@@ -29,6 +45,24 @@ export function SiteHeader({
 
   return (
     <header className="site-header">
+      <div className="header-utility">
+        <div className="container header-utility-inner">
+          <LanguageSwitcher locale={locale} />
+          <div className="header-utility-links">
+            <Link href="/sitemap">{labels.sitemap}</Link>
+            <Link href="/guest/login">{labels.guestLogin}</Link>
+            {staff ? (
+              <Link href="/admin">{labels.admin}</Link>
+            ) : (
+              <Link href="/admin/login">{labels.adminLogin}</Link>
+            )}
+            <a href={`tel:${tel}`} className="header-utility-phone">
+              {labels.consult24} {phone}
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div className="container site-header-inner">
         <Link href="/" className="brand">
           <span className="brand-mark">福</span>
@@ -37,8 +71,9 @@ export function SiteHeader({
             <strong>{siteName}</strong>
           </span>
         </Link>
+
         <nav className="nav-links">
-          {NAV_ITEMS.map((item) => (
+          {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -47,15 +82,11 @@ export function SiteHeader({
               {item.label}
             </Link>
           ))}
-          {staff && (
-            <Link href="/admin" className="nav-admin">
-              홈페이지관리
-            </Link>
-          )}
         </nav>
+
         <div className="nav-actions">
           <a className="btn btn-gold header-consult" href={`tel:${tel}`}>
-            24시간 상담
+            {labels.consult24}
           </a>
           <button
             className="btn btn-ghost menu-toggle"
@@ -67,28 +98,35 @@ export function SiteHeader({
           </button>
         </div>
       </div>
+
       {open && (
         <div className="container mobile-menu">
-          {NAV_ITEMS.map((item) => (
+          {navItems.map((item) => (
             <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
               {item.label}
             </Link>
           ))}
+          <Link href="/sitemap" onClick={() => setOpen(false)}>
+            {labels.sitemap}
+          </Link>
           <Link href="/guest/login" onClick={() => setOpen(false)}>
-            유가족 로그인
+            {labels.guestLogin}
           </Link>
           <Link href="/rooms" onClick={() => setOpen(false)}>
-            추모글 남기기
+            {labels.memorialWrite}
           </Link>
           {staff ? (
             <Link href="/admin" onClick={() => setOpen(false)}>
-              홈페이지관리
+              {labels.admin}
             </Link>
           ) : (
             <Link href="/admin/login" onClick={() => setOpen(false)}>
-              관리자 로그인
+              {labels.adminLogin}
             </Link>
           )}
+          <div className="mobile-lang">
+            <LanguageSwitcher locale={locale} />
+          </div>
         </div>
       )}
     </header>

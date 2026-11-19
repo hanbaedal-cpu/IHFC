@@ -1,13 +1,31 @@
 "use client";
 
 import { useState } from "react";
+import type { Locale } from "@/lib/i18n/types";
+
+type Labels = {
+  title: string;
+  lead: string;
+  name: string;
+  phone: string;
+  agree: string;
+  submit: string;
+  submitting: string;
+  emergency: string;
+  callPlease: string;
+  success: string;
+};
 
 export function ConsultationForm({
   phone = "032-500-0444",
   variant = "hero",
+  locale = "ko",
+  labels,
 }: {
   phone?: string;
   variant?: "hero" | "section";
+  locale?: Locale;
+  labels: Labels;
 }) {
   const [name, setName] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
@@ -30,10 +48,7 @@ export function ConsultationForm({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "신청에 실패했습니다.");
-      setMessage({
-        type: "ok",
-        text: "상담 신청이 접수되었습니다. 전문 장례지도사가 연락드리겠습니다.",
-      });
+      setMessage({ type: "ok", text: labels.success });
       setName("");
       setPhoneValue("");
       setAgreed(false);
@@ -50,22 +65,20 @@ export function ConsultationForm({
   return (
     <form className={`consult-card consult-${variant}`} onSubmit={onSubmit}>
       <div className="section-label">24H CONSULTATION</div>
-      <h2 style={{ marginTop: 0, fontSize: "1.45rem" }}>빠른 상담 신청</h2>
-      <p className="consult-lead">
-        남겨주신 연락처로 전문 장례지도사가 안내해 드립니다.
-      </p>
+      <h2 style={{ marginTop: 0, fontSize: "1.45rem" }}>{labels.title}</h2>
+      <p className="consult-lead">{labels.lead}</p>
       {message && <div className={`msg ${message.type}`}>{message.text}</div>}
       <div className="consult-fields">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="이름"
+          placeholder={labels.name}
           required
         />
         <input
           value={phoneValue}
           onChange={(e) => setPhoneValue(e.target.value)}
-          placeholder="연락처 010-0000-0000"
+          placeholder={labels.phone}
           required
         />
       </div>
@@ -76,16 +89,16 @@ export function ConsultationForm({
           onChange={(e) => setAgreed(e.target.checked)}
           required
         />
-        <span>상담을 위한 개인정보 수집 및 이용에 동의합니다.</span>
+        <span>{labels.agree}</span>
       </label>
       <button className="btn btn-primary consult-submit" type="submit" disabled={loading}>
-        {loading ? "접수 중..." : "상담 신청하기 →"}
+        {loading ? labels.submitting : labels.submit}
       </button>
       <p className="consult-emergency">
-        긴급한 경우{" "}
-        <a href={`tel:${tel}`}>{phone}</a>
-        로 전화해 주세요.
+        {labels.emergency} <a href={`tel:${tel}`}>{phone}</a>
+        {labels.callPlease}
       </p>
+      <span className="sr-only">{locale}</span>
     </form>
   );
 }

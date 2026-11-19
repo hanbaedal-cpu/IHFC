@@ -4,45 +4,70 @@ import { getPageContent } from "@/models/PageContent";
 import { GUIDE_STEPS } from "@/lib/site-content";
 import { PublicShell } from "@/components/home/PublicShell";
 import { SiteFooter } from "@/components/home/SiteFooter";
+import { getLocale } from "@/lib/i18n/locale";
+import { t } from "@/lib/i18n/dictionaries";
+import {
+  localizeList,
+  localizePageContent,
+  localizeSettings,
+} from "@/lib/i18n/content";
 
 export const dynamic = "force-dynamic";
 
+const GUIDE_ICONS = ["☎", "📄", "🏠", "🚗", "⚱"];
+
 export default async function GuidePage() {
   await connectDB();
-  const [settings, page] = await Promise.all([
+  const locale = await getLocale();
+  const [settingsRaw, pageRaw] = await Promise.all([
     getSiteSettings(),
     getPageContent("guide"),
+  ]);
+  const [settings, page, guideSteps] = await Promise.all([
+    localizeSettings(settingsRaw, locale),
+    localizePageContent(pageRaw, locale),
+    localizeList([...GUIDE_STEPS], ["meta", "title", "items"], locale),
   ]);
   const phone = settings.phone || "032-500-0444";
   const tel = phone.replace(/\D/g, "");
 
   return (
     <main>
-      <PublicShell settings={settings} activePath="/guide">
-        <section className="section">
-          <div className="container">
-            <div className="section-label">GUIDE</div>
-            <h1 style={{ fontFamily: "var(--font-display), serif", color: "var(--green-900)" }}>
-              {page.title}
+      <PublicShell settings={settings} activePath="/guide" locale={locale}>
+        <section className="page-section guide-page">
+          <div className="container guide-inner">
+            <div className="section-label">{t(locale, "guide.label")}</div>
+            <h1 className="page-title">
+              {page.title || t(locale, "guide.title")}
             </h1>
-            <p className="section-lead">{page.body}</p>
-            <div className="steps">
-              {GUIDE_STEPS.map((step) => (
-                <article key={step.title} className="step-card">
-                  <div className="meta">{step.meta}</div>
-                  <h3 style={{ margin: 0 }}>{step.title}</h3>
-                  <ul>
-                    {step.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
+            <p className="page-lead">{page.body || t(locale, "guide.lead")}</p>
+
+            <div className="guide-steps">
+              {guideSteps.map((step, index) => (
+                <article key={step.title} className="guide-step">
+                  <div className="guide-step-icon" aria-hidden>
+                    {GUIDE_ICONS[index] || "·"}
+                  </div>
+                  <div className="guide-step-body">
+                    <div className="guide-step-meta">{step.meta}</div>
+                    <h2>{step.title}</h2>
+                    <ul>
+                      {step.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </article>
               ))}
             </div>
-            <div className="panel" style={{ marginTop: "1.5rem", textAlign: "center" }}>
-              <p style={{ marginTop: 0 }}>장례 절차와 빈소 이용이 궁금하실 때</p>
-              <h3 style={{ marginTop: 0 }}>24시간 전문 장례지도사가 안내해 드립니다</h3>
-              <a className="btn btn-primary" href={`tel:${tel}`}>
+
+            <div className="guide-cta">
+              <div>
+                <p>{t(locale, "guide.help")}</p>
+                <strong>{t(locale, "guide.help2")}</strong>
+              </div>
+              <a className="btn btn-gold guide-cta-btn" href={`tel:${tel}`}>
+                <span aria-hidden>☎</span>
                 {phone}
               </a>
             </div>
@@ -50,8 +75,9 @@ export default async function GuidePage() {
         </section>
         <SiteFooter
           siteName={settings.siteName}
-          address={settings.address}
-          phone={settings.phone}
+          address={settings.address || ""}
+          phone={settings.phone || phone}
+          locale={locale}
         />
       </PublicShell>
     </main>
