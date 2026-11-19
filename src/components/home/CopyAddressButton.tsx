@@ -6,10 +6,12 @@ export function CopyAddressButton({
   address,
   label,
   doneLabel,
+  className,
 }: {
   address: string;
   label: string;
   doneLabel: string;
+  className?: string;
 }) {
   const [done, setDone] = useState(false);
 
@@ -24,7 +26,7 @@ export function CopyAddressButton({
   }
 
   return (
-    <button type="button" className="btn-addr-copy" onClick={onCopy}>
+    <button type="button" className={className || "btn-addr-copy"} onClick={onCopy}>
       <span aria-hidden>⧉</span>
       {done ? doneLabel : label}
     </button>

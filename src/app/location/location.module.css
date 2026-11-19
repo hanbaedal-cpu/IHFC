@@ -1,0 +1,320 @@
+.page {
+  padding: 4rem 0 5rem;
+  background: #f4f6f4;
+}
+
+.wrap {
+  width: min(1280px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+  color: #c9a078;
+}
+
+.title {
+  margin: 0.75rem 0 0;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.25;
+}
+
+.lead {
+  margin: 1rem 0 0;
+  color: #66706a;
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 40rem;
+}
+
+.consult {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  background: #1a4335;
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.consult:hover {
+  background: #16382c;
+}
+
+.main {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.address {
+  background: #1a3026;
+  color: #fff;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 320px;
+}
+
+.addressLabel {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+  color: #d4b48a;
+}
+
+.addressTitle {
+  margin: 0.75rem 0 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.rows {
+  margin: 1.25rem 0 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.rowIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  color: #d4b48a;
+  margin-top: 0.1rem;
+}
+
+.rowText {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.rowMuted {
+  display: block;
+  margin-top: 0.25rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.8rem;
+}
+
+.actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.copyBtn,
+.callBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.copyBtn {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.copyBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.callBtn {
+  background: #c9a078;
+  color: #1a1a1a;
+  border: 0;
+  text-decoration: none;
+}
+
+.callBtn:hover {
+  background: #d4ae88;
+}
+
+.map {
+  width: 100%;
+  height: 320px;
+  background: #e4e8e5;
+  position: relative;
+}
+
+.map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.mapOpen {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 2;
+  background: #fff;
+  color: #1a3026;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.transport {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.card {
+  background: #ecece8;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+}
+
+.cardIcon {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  background: #f3e7d6;
+  color: #1a4335;
+}
+
+.cardTitle {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.cardList {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.cardList li {
+  display: flex;
+  gap: 0.5rem;
+  color: #66706a;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.dot {
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 999px;
+  background: #c9a078;
+  flex-shrink: 0;
+  margin-top: 0.55rem;
+}
+
+.foot {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: #ecece8;
+  padding: 1rem 1.25rem;
+}
+
+.note {
+  margin: 0;
+  color: #66706a;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  display: flex;
+  gap: 0.35rem;
+  align-items: flex-start;
+}
+
+.inquiry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #1a4335;
+  font-size: 0.9rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.inquiry:hover {
+  color: #16382c;
+}
+
+@media (min-width: 640px) {
+  .transport {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .foot {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 1024px) {
+  .head {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .consult {
+    align-self: auto;
+  }
+
+  .main {
+    grid-template-columns: 4fr 8fr;
+  }
+
+  .address {
+    min-height: 420px;
+  }
+
+  .map {
+    height: 420px;
+  }
+
+  .transport {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
