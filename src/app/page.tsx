@@ -7,19 +7,74 @@ import { Room } from "@/models/Room";
 import { maskName } from "@/lib/utils";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { ConsultationForm } from "@/components/home/ConsultationForm";
+import { FacilityGallery } from "@/components/home/FacilityGallery";
 
 export const dynamic = "force-dynamic";
 
 const facilities = [
-  { name: "101호(특실)", size: "약 330㎡ (100평)", desc: "넓은 접객실과 독립 휴게실을 갖춘 프리미엄 빈소" },
-  { name: "102호(일반실)", size: "약 165㎡ (50평)", desc: "유가족이 편안히 머무를 수 있는 단정한 빈소" },
-  { name: "201호(VIP)", size: "약 330㎡ (100평)", desc: "독립 출입구와 전용 유족실을 갖춘 최상급 빈소" },
-  { name: "202호(특실)", size: "약 200㎡ (60평)", desc: "채광이 좋은 접객실과 샤워실을 갖춘 특실 빈소" },
-  { name: "입관실", size: "유가족 참관 가능", desc: "고인을 정성으로 씻기고 관에 모시는 정갈한 전용실" },
-  { name: "안치실", size: "위생 냉장시설 완비", desc: "고인을 정중히 모시는 청결한 안치 전용 공간" },
-  { name: "샤워실", size: "24시간 이용 가능", desc: "장례 기간 동안 씻고 정돈할 수 있는 위생 공간" },
-  { name: "유족 휴게실", size: "빈소별 독립 공간", desc: "긴 장례 기간 편히 쉬실 수 있도록 마련한 전용 휴게실" },
-  { name: "조리실", size: "유족 전용 조리 공간", desc: "조문객을 맞이할 음식을 준비할 수 있는 조리실" },
+  {
+    name: "101호(특실)",
+    size: "약 330㎡ (100평)",
+    desc: "넓은 접객실과 독립 휴게실을 갖춘 프리미엄 빈소",
+    image:
+      "https://readdy.ai/api/search-image?query=Elegant%20spacious%20Korean%20funeral%20memorial%20hall%20with%20white%20chrysanthemum%20altar%2C%20soft%20warm%20lighting%2C%20calm%20sage%20green%20and%20beige%20interior%2C%20clean%20modern%20architecture%20photography&width=800&height=600&seq=fac-01&orientation=landscape",
+  },
+  {
+    name: "102호(일반실)",
+    size: "약 165㎡ (50평)",
+    desc: "유가족이 편안히 머무를 수 있는 단정한 빈소",
+    image:
+      "https://readdy.ai/api/search-image?query=Quiet%20modern%20Korean%20funeral%20reception%20room%20with%20neat%20tables%2C%20white%20flowers%2C%20soft%20natural%20light%2C%20muted%20green%20beige%20tones%2C%20serene%20interior%20architecture%20photography&width=800&height=600&seq=fac-02&orientation=landscape",
+  },
+  {
+    name: "201호(VIP)",
+    size: "약 330㎡ (100평)",
+    desc: "독립 출입구와 전용 유족실을 갖춘 최상급 빈소",
+    image:
+      "https://readdy.ai/api/search-image?query=Calm%20clean%20bright%20ceremonial%20room%20with%20white%20lilies%20and%20soft%20diffused%20light%2C%20minimal%20respectful%20interior%2C%20sage%20green%20and%20ivory%20palette%2C%20serene%20architecture%20photography&width=800&height=600&seq=fac-03&orientation=landscape",
+  },
+  {
+    name: "202호(특실)",
+    size: "약 200㎡ (60평)",
+    desc: "채광이 좋은 접객실과 샤워실을 갖춘 특실 빈소",
+    image:
+      "https://readdy.ai/api/search-image?query=Cozy%20calm%20family%20lounge%20room%20with%20soft%20sofa%2C%20warm%20lamp%20light%2C%20wooden%20floor%2C%20ivory%20and%20sage%20green%20tones%2C%20peaceful%20minimal%20interior%20photography&width=800&height=600&seq=fac-04&orientation=landscape",
+  },
+  {
+    name: "입관실",
+    size: "유가족 참관 가능",
+    desc: "고인을 정성으로 씻기고 관에 모시는 정갈한 전용실",
+    image:
+      "https://readdy.ai/api/search-image?query=Clean%20minimal%20ceremonial%20preparation%20room%20with%20plain%20white%20walls%2C%20soft%20indirect%20lighting%2C%20folded%20white%20linen%20on%20a%20wooden%20table%2C%20quiet%20respectful%20atmosphere%2C%20muted%20ivory%20and%20sage%20green%20tones%2C%20interior%20photography&width=800&height=600&seq=fac-05&orientation=landscape",
+  },
+  {
+    name: "안치실",
+    size: "위생 냉장시설 완비",
+    desc: "고인을 정중히 모시는 청결한 안치 전용 공간",
+    image:
+      "https://readdy.ai/api/search-image?query=Serene%20clean%20chamber%20room%20with%20polished%20pale%20stone%20walls%2C%20soft%20even%20lighting%2C%20minimal%20stainless%20steel%20details%2C%20calm%20respectful%20atmosphere%2C%20light%20grey%20and%20sage%20green%20tones%2C%20interior%20photography&width=800&height=600&seq=fac-06&orientation=landscape",
+  },
+  {
+    name: "샤워실",
+    size: "24시간 이용 가능",
+    desc: "장례 기간 동안 씻고 정돈할 수 있는 위생 공간",
+    image:
+      "https://readdy.ai/api/search-image?query=Modern%20clean%20shower%20room%20with%20pale%20beige%20tiles%2C%20glass%20partition%2C%20warm%20soft%20lighting%2C%20neatly%20folded%20white%20towels%20on%20a%20wooden%20stool%2C%20calm%20minimal%20interior%20photography&width=800&height=600&seq=fac-07&orientation=landscape",
+  },
+  {
+    name: "유족 휴게실",
+    size: "빈소별 독립 공간",
+    desc: "긴 장례 기간 편히 쉬실 수 있도록 마련한 전용 휴게실",
+    image:
+      "https://readdy.ai/api/search-image?query=Peaceful%20small%20rest%20lounge%20with%20a%20neatly%20made%20bed%20and%20soft%20sofa%2C%20warm%20lamp%20glow%2C%20sheer%20curtain%20daylight%2C%20ivory%20and%20sage%20green%20palette%2C%20quiet%20minimal%20interior%20photography&width=800&height=600&seq=fac-08&orientation=landscape",
+  },
+  {
+    name: "조리실",
+    size: "유족 전용 조리 공간",
+    desc: "조문객을 맞이할 음식을 준비할 수 있는 조리실",
+    image:
+      "https://readdy.ai/api/search-image?query=Clean%20simple%20kitchenette%20with%20light%20wood%20cabinets%2C%20stone%20countertop%2C%20ceramic%20teapot%20and%20cups%2C%20soft%20window%20light%2C%20calm%20ivory%20and%20sage%20green%20tones%2C%20minimal%20interior%20photography&width=800&height=600&seq=fac-09&orientation=landscape",
+  },
 ];
 
 const steps = [
@@ -109,22 +164,31 @@ export default async function HomePage() {
       <ConsultationForm />
 
       <section className="section" id="about">
-        <div className="container">
-          <div className="section-label">ABOUT US</div>
-          <h2>{settings.aboutTitle}</h2>
-          <p className="section-lead">{settings.aboutBody}</p>
-          <div className="stats">
-            <div className="stat">
-              <strong>24h</strong>
-              <span>상담·이송</span>
-            </div>
-            <div className="stat">
-              <strong>4</strong>
-              <span>빈소 운영</span>
-            </div>
-            <div className="stat">
-              <strong>100%</strong>
-              <span>요금 공개</span>
+        <div className="container about-grid">
+          <div className="about-photo">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://readdy.ai/api/search-image?query=Modern%20calm%20hospital%20funeral%20hall%20building%20exterior%20with%20trees%2C%20soft%20morning%20light%2C%20muted%20sage%20green%20and%20ivory%20tones%2C%20serene%20respectful%20architecture%20photography&width=1000&height=880&seq=about-01&orientation=landscape"
+              alt="근로복지공단 인천병원 장례식장 전경"
+            />
+          </div>
+          <div>
+            <div className="section-label">ABOUT US</div>
+            <h2>{settings.aboutTitle}</h2>
+            <p className="section-lead">{settings.aboutBody}</p>
+            <div className="stats">
+              <div className="stat">
+                <strong>24h</strong>
+                <span>상담·이송</span>
+              </div>
+              <div className="stat">
+                <strong>4</strong>
+                <span>빈소 운영</span>
+              </div>
+              <div className="stat">
+                <strong>100%</strong>
+                <span>요금 공개</span>
+              </div>
             </div>
           </div>
         </div>
@@ -138,17 +202,7 @@ export default async function HomePage() {
             빈소 4실과 입관실·안치실·샤워실·유족 휴게실·조리실을 갖추어 장례 전 과정을 한 곳에서
             모십니다.
           </p>
-          <div className="facility-grid">
-            {facilities.map((item) => (
-              <article key={item.name} className="facility-card">
-                <div className="thumb">{item.size}</div>
-                <div className="body">
-                  <h3>{item.name}</h3>
-                  <p>{item.desc}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          <FacilityGallery facilities={facilities} />
         </div>
       </section>
 
